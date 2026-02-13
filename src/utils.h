@@ -16,12 +16,12 @@
 #define STRINGIZE2(x) #x
 
 #define FORMATTED_STRING(arr, format)                   \
-    do {                                                \
-        va_list args;                                   \
-        va_start(args, (format));                       \
-        vsnprintf((arr), LEN(arr) - 1, (format), args); \
-        va_end(args);                                   \
-    } while (0)
+	do {                                                \
+		va_list args;                                   \
+		va_start(args, format);                         \
+		vsnprintf((arr), LEN(arr) - 1, (format), args); \
+		va_end(args);                                   \
+	} while (0)
 
 typedef enum Result (*SpawnProg)(const void *);
 
