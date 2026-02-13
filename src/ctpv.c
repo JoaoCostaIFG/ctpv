@@ -213,25 +213,29 @@ static RESULT check_cache(int *resp, char *file, char *cache_file)
 
 static RESULT preview(int argc, char *argv[])
 {
-    char *f, *w, *h, *x, *y, *id;
-    char w_buf[24], h_buf[24], y_buf[24];
-    long w_l, h_l, y_l;
+	char *f, *w, *h, *x, *y, *mode;
+	char w_buf[24], h_buf[24], y_buf[24];
+	long w_l, h_l, y_l;
 
-    GET_PARG(f, 0);
-    GET_PARG(w, 1);
-    GET_PARG(h, 2);
-    GET_PARG(x, 3);
-    GET_PARG(y, 4);
-    GET_PARG(id, 5);
+	GET_PARG(f, 0);
+	GET_PARG(w, 1);
+	GET_PARG(h, 2);
+	GET_PARG(x, 3);
+	GET_PARG(y, 4);
+	GET_PARG(mode, 5);
 
-    if (!w)
-        w = "80";
-    if (!h)
-        h = "40";
-    if (!x)
-        x = "0";
-    if (!y)
-        y = "0";
+	/* Handle preload mode - exit early without generating output */
+	if (mode && strcmp(mode, "preload") == 0)
+		return OK;
+
+	if (!w)
+		w = "80";
+	if (!h)
+		h = "40";
+	if (!x)
+		x = "0";
+	if (!y)
+		y = "0";
 
     ERRCHK_RET_OK(strtol_w(&w_l, w, NULL, 10));
     ERRCHK_RET_OK(strtol_w(&h_l, h, NULL, 10));
@@ -273,17 +277,17 @@ static RESULT preview(int argc, char *argv[])
     int cache_valid;
     ERRCHK_RET_OK(check_cache(&cache_valid, input_f.path, cache_file));
 
-    PreviewArgs args = {
-        .f = input_f.path,
-        .w = w,
-        .h = h,
-        .x = x,
-        .y = y,
-        .id = id,
-        .cache_dir = cache_dir,
-        .cache_file = cache_file,
-        .cache_valid = cache_valid,
-    };
+	PreviewArgs args = {
+		.f = input_f.path,
+		.w = w,
+		.h = h,
+		.x = x,
+		.y = y,
+		.id = getenv("id"),  /* ID is read from $id environment variable */
+		.cache_dir = cache_dir,
+		.cache_file = cache_file,
+		.cache_valid = cache_valid,
+	};
 
     return preview_run(get_ext(input_f.path), mimetype, &args);
 }

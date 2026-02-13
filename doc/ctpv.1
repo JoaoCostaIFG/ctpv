@@ -1,7 +1,7 @@
 '\" t
 .ds ub \(:Uberzug
 .
-.TH CTPV 1 2022 Linux "User's Reference Manuals"
+.TH CTPV 1 2026 Linux "User's Reference Manuals"
 .
 .SH NAME
 ctpv \- terminal previewer
@@ -15,7 +15,7 @@ ctpv \- terminal previewer
 .RI [ h ]
 .RI [ x ]
 .RI [ y ]
-.RI [ id ]
+.RI [ mode ]
 .YS
 .
 .SY ctpv
@@ -286,6 +286,54 @@ Kill server with ID
 .TP
 .B \-d
 Enable debug messages.
+.
+.SH ARGUMENTS
+.
+When invoked without options,
+.B ctpv
+accepts the following positional arguments:
+.
+.TP
+.I file
+Path to the file to preview (required).
+.
+.TP
+.I w
+Width of the preview area in characters (optional, default: 80).
+.
+.TP
+.I h
+Height of the preview area in characters (optional, default: 40).
+.
+.TP
+.I x
+X position offset (optional, default: 0).
+.
+.TP
+.I y
+Y position offset (optional, default: 0).
+.
+.TP
+.I mode
+Preview mode, either
+.B preview
+or
+.BR preload .
+When set to
+.BR preload ,
+.B ctpv
+exits immediately without generating output.
+This argument is passed by
+.I lf
+to indicate whether the preview is being displayed or preloaded.
+If not specified, preview mode is assumed (optional).
+.
+.PP
+The server ID is read from the
+.B $id
+environment variable, which is automatically set by
+.IR lf .
+This is used for image preview integration via \*(ub.
 .
 .SH CONFIGURATION
 .
