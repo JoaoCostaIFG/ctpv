@@ -6,7 +6,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include <openssl/md5.h>
+#include <openssl/evp.h>
 
 #include "ctpv.h"
 #include "error.h"
@@ -169,16 +169,32 @@ older:
 
 static void md5_string(char *buf, size_t len, char *s)
 {
-    unsigned char out[MD5_DIGEST_LENGTH];
-    char b[16];
+	unsigned char out[EVP_MAX_MD_SIZE];
+	unsigned int out_len;
+	char b[16];
+	EVP_MD_CTX *ctx;
 
-    MD5((const unsigned char *)s, strlen(s), out);
+	ctx = EVP_MD_CTX_new();
+	if (!ctx) {
+		FUNCFAILED("EVP_MD_CTX_new", "failed to create context");
+		abort();
+	}
 
-    buf[0] = '\0';
-    for (unsigned int i = 0; i < LEN(out); i++) {
-        snprintf(b, LEN(b)-1, "%02x", out[i]);
-        strncat(buf, b, len);
-    }
+	if (EVP_DigestInit_ex(ctx, EVP_md5(), NULL) != 1 ||
+	    EVP_DigestUpdate(ctx, s, strlen(s)) != 1 ||
+	    EVP_DigestFinal_ex(ctx, out, &out_len) != 1) {
+		FUNCFAILED("EVP_Digest", "failed to compute MD5");
+		EVP_MD_CTX_free(ctx);
+		abort();
+	}
+
+	EVP_MD_CTX_free(ctx);
+
+	buf[0] = '\0';
+	for (unsigned int i = 0; i < out_len; i++) {
+		snprintf(b, LEN(b)-1, "%02x", out[i]);
+		strncat(buf, b, len);
+	}
 }
 
 static RESULT get_cache_file(char *dir, size_t dir_len, char *filename,
