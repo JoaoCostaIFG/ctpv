@@ -64,12 +64,10 @@ For example, you only need either `elinks`, `lynx` or
 [ffmpegthumbnailer]: https://github.com/dirkvdb/ffmpegthumbnailer
 [w3m]: https://w3m.sourceforge.net/
 [elinks]: http://elinks.cz/
-[fontforge]: https://fontforge.org
 [exiftool]: https://github.com/exiftool/exiftool
 [highlight]: https://gitlab.com/saalen/highlight
 [chafa]: https://github.com/hpjansson/chafa
 [gpg]: https://www.gnupg.org/
-[transmission]: https://transmissionbt.com/
 [delta]: https://github.com/dandavison/delta
 [colordiff]: https://www.colordiff.org/
 [source-highlight]: https://www.gnu.org/software/src-highlite/
@@ -80,8 +78,6 @@ For example, you only need either `elinks`, `lynx` or
 [lynx]: https://github.com/jpanther/lynx
 [libreoffice]: https://www.libreoffice.org/
 [diff-so-fancy]: https://github.com/so-fancy/diff-so-fancy
-[imagemagick]: https://imagemagick.org/
-[poppler]: https://poppler.freedesktop.org/
 [jq]: https://github.com/jqlang/jq
 [ffmpeg]: https://ffmpeg.org/
 
@@ -100,7 +96,7 @@ of the same libraries.
 
 Install:
 
-```console
+```bash
 git clone https://github.com/NikitaIvanovV/ctpv
 cd ctpv
 make
@@ -109,7 +105,7 @@ sudo make install
 
 Uninstall:
 
-```console
+```bash
 sudo make uninstall
 ```
 
@@ -119,7 +115,7 @@ If you are an Arch Linux user, you can install
 [`ctpv-git`](https://aur.archlinux.org/packages/ctpv-git)
 AUR package.
 
-```console
+```bash
 yay -S ctpv-git
 ```
 
@@ -129,7 +125,7 @@ With MacPorts, you can install the
 [`ctpv`](https://ports.macports.org/port/ctpv)
 package.
 
-```console
+```bash
 sudo port install ctpv
 ```
 
@@ -139,7 +135,7 @@ With Homebrew, you can install the
 [`ctpv`](https://formulae.brew.sh/formula/ctpv)
 package.
 
-```console
+```bash
 brew install ctpv
 ```
 
@@ -147,7 +143,7 @@ brew install ctpv
 
 #### Nix package
 
-```console
+```bash
 nix-env -ivf cptv
 nix profile install nixpkgs#cptv # with flakes enabled
 ```
@@ -172,6 +168,7 @@ programs.lf = {
 ```
 
 ### Gentoo
+
 Add this
 [ctpv-9999.ebuild](https://github.com/Sneethe/sneethe-overlay/blob/main/app-misc/ctpv/ctpv-9999.ebuild)
 to your own
@@ -179,7 +176,7 @@ to your own
 
 Or alternatively:
 
-```console
+```bash
 eselect repository add sneethe-overlay git https://github.com/Sneethe/sneethe-overlay.git
 emaint sync --repo sneethe-overlay
 emerge --ask --verbose app-misc/ctpv
@@ -192,11 +189,14 @@ emerge --ask --verbose app-misc/ctpv
 Add these lines to your lf config
 (usually located at `~/.config/lf/lfrc`).
 
-```
+```bash
 set previewer ctpv
 set cleaner ctpvclear
+cmd on-quit &{{
+  ctpvquit "$id"
+}}
+# does nothing when not using ueberzug (you can skip it)
 &ctpv -s $id
-cmd on-quit ctpvquit $id
 ```
 
 #### Wayland
@@ -217,9 +217,7 @@ Full documentation on command line options,
 configuration and how to define custom previews can be found here:
 <https://www.nikitaivanov.com/man1/ctpv>
 
-[ueberzug]: https://github.com/seebye/ueberzug
 [kitty]: https://github.com/kovidgoyal/kitty
-[chafa]: https://github.com/hpjansson/chafa
 [lf]: https://github.com/gokcehan/lf
 [lf-sixel]: https://github.com/horriblename/lf
 [sixel]: https://www.arewesixelyet.com
