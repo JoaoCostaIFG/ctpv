@@ -24,4 +24,3 @@
 
 # Add a newline at the end
 $a\
-

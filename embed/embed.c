@@ -1,13 +1,12 @@
+#include <ctype.h>
+#include <errno.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <errno.h>
-#include <stdio.h>
-#include <ctype.h>
 
-void getvarname(char *res, char *prefix, char *filename)
-{
-    char *s = strrchr(filename, '/');
+void getvarname(char* res, char* prefix, char* filename) {
+    char* s = strrchr(filename, '/');
     if (s)
         s++;
     else
@@ -31,15 +30,13 @@ void getvarname(char *res, char *prefix, char *filename)
     res[i] = '\0';
 }
 
-void print_char(char c)
-{
+void print_char(char c) {
     printf("0x%x, ", c);
 }
 
-void print_file(char *f)
-{
+void print_file(char* f) {
     int c;
-    FILE *file = fopen(f, "r");
+    FILE* file = fopen(f, "r");
 
     if (!file) {
         fprintf(stderr, "failed to open %s: %s\n", f, strerror(errno));
@@ -52,8 +49,7 @@ void print_file(char *f)
     fclose(file);
 }
 
-void embed_file(char *prefix, char *filename, char *helpers)
-{
+void embed_file(char* prefix, char* filename, char* helpers) {
     static char varname[FILENAME_MAX];
 
     getvarname(varname, prefix, filename);
@@ -70,21 +66,20 @@ void embed_file(char *prefix, char *filename, char *helpers)
     puts("0 };");
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char* argv[]) {
     char *prefix = NULL, *helpers = NULL;
 
     int c;
     while ((c = getopt(argc, argv, "p:h:")) != -1) {
         switch (c) {
-        case 'p':
-            prefix = optarg;
-            break;
-        case 'h':
-            helpers = optarg;
-            break;
-        default:
-            return EXIT_FAILURE;
+            case 'p':
+                prefix = optarg;
+                break;
+            case 'h':
+                helpers = optarg;
+                break;
+            default:
+                return EXIT_FAILURE;
         }
     }
 

@@ -4,9 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define PARSEERROR(c, format, ...)                  \
-    print_errorf("config:%u:%u: " format, (c).line, \
-                 (c).col __VA_OPT__(, ) __VA_ARGS__)
+#define PARSEERROR(c, format, ...)                                                                 \
+    print_errorf("config:%u:%u: " format, (c).line, (c).col __VA_OPT__(, ) __VA_ARGS__)
 
 typedef struct Lexer Lexer;
 
@@ -32,14 +31,14 @@ typedef struct {
     } type;
     union {
         int i;
-        char *s;
+        char* s;
     } val;
 } Token;
 
-Lexer *lexer_init(FILE *f);
-void lexer_set_opts(Lexer *ctx, enum LexerOpts flags);
-void lexer_free(Lexer *ctx);
-Token lexer_get_token(Lexer *ctx);
-char *lexer_token_type_str(enum TokenType type);
+Lexer* lexer_init(FILE* f);
+void lexer_set_opts(Lexer* ctx, enum LexerOpts flags);
+void lexer_free(Lexer* ctx);
+Token lexer_get_token(Lexer* ctx);
+char* lexer_token_type_str(enum TokenType type);
 
 #endif

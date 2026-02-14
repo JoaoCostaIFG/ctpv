@@ -14,11 +14,11 @@ struct CTPV {
         MODE_MIME,
         MODE_VERSION,
     } mode;
-    char *server_id_s;
+    char* server_id_s;
     struct {
         int forcekitty, forcekittyanim, forcechafa, noimages, nosymlinkinfo;
         int autochafa, chafasixel, showgpg;
-        char *shell;
+        char* shell;
     } opts;
     int debug;
 };

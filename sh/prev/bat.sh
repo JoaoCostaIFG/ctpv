@@ -9,9 +9,9 @@ else
 fi
 
 "$batcmd" \
-	--color always        \
-	--style plain         \
-	--paging never        \
+	--color always \
+	--style plain \
+	--paging never \
 	--terminal-width "$w" \
-	--wrap character      \
+	--wrap character \
 	-- "$f"

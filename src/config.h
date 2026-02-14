@@ -5,7 +5,7 @@
 
 typedef struct Parser Parser;
 
-RESULT config_load(Parser **ctx, VectorPreview *prevs, char *filename);
-void config_cleanup(Parser *ctx);
+RESULT config_load(Parser** ctx, VectorPreview* prevs, char* filename);
+void config_cleanup(Parser* ctx);
 
 #endif

@@ -1,3 +1,3 @@
 # text: cat
 
-cat < "$f"
+cat <"$f"

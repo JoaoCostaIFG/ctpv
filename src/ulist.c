@@ -1,17 +1,17 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include "ulist.h"
 #include "error.h"
+#include "ulist.h"
 
 /*
  * Unrolled linked list
  */
 
 #define DEFAULT_CAP 256
-#define NO_LOCK     -1
+#define NO_LOCK -1
 
-#define ULIST_BUF(node)             ((void *)&(node).buf)
+#define ULIST_BUF(node) ((void*)&(node).buf)
 #define ULIST_BUF_AT(list, node, i) (ULIST_BUF(node) + i * (list).size)
 
 struct UList {
@@ -22,13 +22,12 @@ struct UList {
 
 struct UListNode {
     size_t len, cap;
-    struct UListNode *next;
-    void *buf;
+    struct UListNode* next;
+    void* buf;
 };
 
-static struct UListNode *ulist_node_new(UList *l, size_t cap)
-{
-    struct UListNode *n;
+static struct UListNode* ulist_node_new(UList* l, size_t cap) {
+    struct UListNode* n;
 
     if (cap == 0)
         cap = DEFAULT_CAP;
@@ -46,9 +45,8 @@ static struct UListNode *ulist_node_new(UList *l, size_t cap)
     return n;
 }
 
-UList *ulist_new(size_t size, size_t cap)
-{
-    UList *l;
+UList* ulist_new(size_t size, size_t cap) {
+    UList* l;
 
     if (!(l = malloc(sizeof(*l)))) {
         FUNCFAILED("malloc", strerror(errno));
@@ -62,8 +60,7 @@ UList *ulist_new(size_t size, size_t cap)
     return l;
 }
 
-void ulist_free(UList *l)
-{
+void ulist_free(UList* l) {
     struct UListNode *node = l->head, *next;
 
     while (node) {
@@ -75,14 +72,12 @@ void ulist_free(UList *l)
     free(l);
 }
 
-static inline int is_locked(UList *l)
-{
+static inline int is_locked(UList* l) {
     return l->lock_i != NO_LOCK;
 }
 
-void ulist_append_arr(UList *l, void *arr, size_t len)
-{
-    struct UListNode *new, *node = l->tail;
+void ulist_append_arr(UList* l, void* arr, size_t len) {
+    struct UListNode* new, *node = l->tail;
     size_t cap = node->cap;
 
     while (node->len + len > cap)
@@ -93,8 +88,7 @@ void ulist_append_arr(UList *l, void *arr, size_t len)
 
         if (is_locked(l)) {
             new->len += node->len - l->lock_i;
-            memcpy(ULIST_BUF(*new), ULIST_BUF_AT(*l, *node, l->lock_i),
-                   new->len * l->size);
+            memcpy(ULIST_BUF(*new), ULIST_BUF_AT(*l, *node, l->lock_i), new->len * l->size);
 
             node->len = l->lock_i;
             l->lock_i = 0;
@@ -107,8 +101,7 @@ void ulist_append_arr(UList *l, void *arr, size_t len)
     node->len += len;
 }
 
-void ulist_append(UList *l, void *val)
-{
+void ulist_append(UList* l, void* val) {
     ulist_append_arr(l, val, 1);
 }
 
@@ -116,13 +109,11 @@ void ulist_append(UList *l, void *val)
  * Ensure that all the elements appended will be placed in memory
  * one after another. Useful for storing strings.
  */
-void ulist_lock(UList *l)
-{
+void ulist_lock(UList* l) {
     l->lock_i = l->tail->len;
 }
 
-void *ulist_unlock(UList *l)
-{
+void* ulist_unlock(UList* l) {
     ssize_t i = l->lock_i;
     l->lock_i = NO_LOCK;
 

@@ -1,5 +1,5 @@
-#include <ctype.h>
 #include <assert.h>
+#include <ctype.h>
 
 #include "error.h"
 #include "lexer.h"
@@ -13,7 +13,7 @@ typedef int (*Predicate)(int);
 
 typedef struct {
     unsigned int pos, len, eof;
-    FILE *f;
+    FILE* f;
     char buf[1024];
 } InputBuffer;
 
@@ -30,44 +30,35 @@ struct Lexer {
     } tok_pos;
     InputBuffer input_buf;
     TokenQueue tok_queue;
-    UList *text_buf;
+    UList* text_buf;
 };
 
-static char block_open[] = "{{",
-            block_close[] = "}}",
-            slash[] = "/",
-            star[] = "*",
-            dot[] = ".";
+static char block_open[] = "{{", block_close[] = "}}", slash[] = "/", star[] = "*", dot[] = ".";
 
-static void add_token_queue(Lexer *ctx, Token tok)
-{
+static void add_token_queue(Lexer* ctx, Token tok) {
     ctx->tok_queue.toks[ctx->tok_queue.back] = tok;
     ctx->tok_queue.back = (ctx->tok_queue.back + 1) % LEN(ctx->tok_queue.toks);
 }
 
-static Token remove_token_queue(Lexer *ctx)
-{
+static Token remove_token_queue(Lexer* ctx) {
     Token tok = ctx->tok_queue.toks[ctx->tok_queue.front];
     ctx->tok_queue.front = (ctx->tok_queue.front + 1) % LEN(ctx->tok_queue.toks);
     return tok;
 }
 
-static inline int is_empty_token_queue(Lexer *ctx)
-{
+static inline int is_empty_token_queue(Lexer* ctx) {
     return ctx->tok_queue.back == ctx->tok_queue.front;
 }
 
-static void init_input_buf(InputBuffer *b, FILE *f)
-{
+static void init_input_buf(InputBuffer* b, FILE* f) {
     b->pos = 0;
     b->len = 0;
     b->eof = 0;
     b->f = f;
 }
 
-static int peekn_char(Lexer *ctx, unsigned int i)
-{
-    InputBuffer *b = &ctx->input_buf;
+static int peekn_char(Lexer* ctx, unsigned int i) {
+    InputBuffer* b = &ctx->input_buf;
 
     if (b->pos + i < b->len)
         goto exit;
@@ -97,13 +88,11 @@ exit:
     return b->buf[b->pos + i];
 }
 
-static inline char peek_char(Lexer *ctx)
-{
+static inline char peek_char(Lexer* ctx) {
     return peekn_char(ctx, 0);
 }
 
-static char nextn_char(Lexer *ctx, unsigned int i)
-{
+static char nextn_char(Lexer* ctx, unsigned int i) {
     char c = peekn_char(ctx, i);
 
     ctx->col++;
@@ -118,35 +107,29 @@ static char nextn_char(Lexer *ctx, unsigned int i)
     return c;
 }
 
-static inline char next_char(Lexer *ctx)
-{
+static inline char next_char(Lexer* ctx) {
     return nextn_char(ctx, 0);
 }
 
-static void skipn_char(Lexer *ctx, int n)
-{
+static void skipn_char(Lexer* ctx, int n) {
     for (int i = 0; i < n; i++)
         next_char(ctx);
 }
 
-static inline void add_text_buf(Lexer *ctx, char c)
-{
+static inline void add_text_buf(Lexer* ctx, char c) {
     ulist_append(ctx->text_buf, &c);
 }
 
-static inline void record_text(Lexer *ctx)
-{
+static inline void record_text(Lexer* ctx) {
     ulist_lock(ctx->text_buf);
 }
 
-static inline char *get_text(Lexer *ctx)
-{
+static inline char* get_text(Lexer* ctx) {
     return ulist_unlock(ctx->text_buf);
 }
 
-Lexer *lexer_init(FILE *f)
-{
-    Lexer *ctx;
+Lexer* lexer_init(FILE* f) {
+    Lexer* ctx;
 
     if (!(ctx = malloc(sizeof(*ctx)))) {
         FUNCFAILED("malloc", strerror(errno));
@@ -162,19 +145,16 @@ Lexer *lexer_init(FILE *f)
     return ctx;
 }
 
-void lexer_set_opts(Lexer *ctx, enum LexerOpts flags)
-{
+void lexer_set_opts(Lexer* ctx, enum LexerOpts flags) {
     ctx->opts = flags;
 }
 
-void lexer_free(Lexer *ctx)
-{
+void lexer_free(Lexer* ctx) {
     ulist_free(ctx->text_buf);
     free(ctx);
 }
 
-static int cmp_nextn(Lexer *ctx, int n, char *s)
-{
+static int cmp_nextn(Lexer* ctx, int n, char* s) {
     char c;
     int i = 0;
 
@@ -187,11 +167,10 @@ static int cmp_nextn(Lexer *ctx, int n, char *s)
         i++;
     }
 
-    return i == n ? 0 : ((unsigned char)c - *(unsigned char *)s);
+    return i == n ? 0 : ((unsigned char)c - *(unsigned char*)s);
 }
 
-static void ignore_comments(Lexer *ctx)
-{
+static void ignore_comments(Lexer* ctx) {
     char c;
 
     while (peek_char(ctx) == '#') {
@@ -201,8 +180,7 @@ static void ignore_comments(Lexer *ctx)
     }
 }
 
-static void read_while(Lexer *ctx, Predicate p, int add)
-{
+static void read_while(Lexer* ctx, Predicate p, int add) {
     char c;
 
     while ((c = peek_char(ctx)) >= 0 && p(c)) {
@@ -216,15 +194,11 @@ static void read_while(Lexer *ctx, Predicate p, int add)
         add_text_buf(ctx, '\0');
 }
 
-static inline Token get_tok(Lexer *ctx, enum TokenType type)
-{
-    return (Token){ .type = type,
-                    .line = ctx->tok_pos.line,
-                    .col = ctx->tok_pos.col };
+static inline Token get_tok(Lexer* ctx, enum TokenType type) {
+    return (Token){.type = type, .line = ctx->tok_pos.line, .col = ctx->tok_pos.col};
 }
 
-static inline Token read_new_line(Lexer *ctx)
-{
+static inline Token read_new_line(Lexer* ctx) {
     Token tok = get_tok(ctx, TOK_NULL);
 
     while (peek_char(ctx) == '\n') {
@@ -235,18 +209,15 @@ static inline Token read_new_line(Lexer *ctx)
     return tok;
 }
 
-static inline int issymbol(int c)
-{
+static inline int issymbol(int c) {
     return isalnum(c) || c == '_' || c == '-';
 }
 
-static inline int isnotquote(int c)
-{
+static inline int isnotquote(int c) {
     return (c != '"');
 }
 
-static inline Token read_symbol(Lexer *ctx)
-{
+static inline Token read_symbol(Lexer* ctx) {
     char c = peek_char(ctx);
 
     if (!isalpha(c))
@@ -261,8 +232,7 @@ static inline Token read_symbol(Lexer *ctx)
     return tok;
 }
 
-static inline Token read_string(Lexer *ctx)
-{
+static inline Token read_string(Lexer* ctx) {
     char c = next_char(ctx);
 
     if (isnotquote(c))
@@ -280,8 +250,7 @@ static inline Token read_string(Lexer *ctx)
     return tok;
 }
 
-static inline Token read_int(Lexer *ctx)
-{
+static inline Token read_int(Lexer* ctx) {
     int positive = 1;
 
     if (peek_char(ctx) == '-') {
@@ -296,7 +265,7 @@ static inline Token read_int(Lexer *ctx)
     read_while(ctx, isdigit, 1);
 
     Token tok;
-    char *text = get_text(ctx);
+    char* text = get_text(ctx);
 
     /* If NUMISTEXT option is set, do not convert string to integer */
     if (ctx->opts & LEX_OPT_NUMISTEXT) {
@@ -316,8 +285,7 @@ static inline Token read_int(Lexer *ctx)
     return tok;
 }
 
-static Token read_punct(Lexer *ctx, int type, char *s, int n)
-{
+static Token read_punct(Lexer* ctx, int type, char* s, int n) {
     Token tok;
 
     if (peek_char(ctx) == EOF_CHAR)
@@ -335,18 +303,15 @@ static Token read_punct(Lexer *ctx, int type, char *s, int n)
     return tok;
 }
 
-static inline Token read_block_open(Lexer *ctx)
-{
+static inline Token read_block_open(Lexer* ctx) {
     return READ_PUNCT(ctx, TOK_BLK_OPEN, block_open);
 }
 
-static inline Token read_block_close(Lexer *ctx)
-{
+static inline Token read_block_close(Lexer* ctx) {
     return READ_PUNCT(ctx, TOK_BLK_CLS, block_close);
 }
 
-static Token read_block(Lexer *ctx)
-{
+static Token read_block(Lexer* ctx) {
     Token open_tok, body_tok, close_tok;
 
     if ((open_tok = read_block_open(ctx)).type == TOK_NULL)
@@ -380,25 +345,24 @@ static Token read_block(Lexer *ctx)
     return open_tok;
 }
 
-#define ATTEMPT_READ(c, func)   \
-    do {                        \
-        Token t = (func)(c);    \
-        if (t.type != TOK_NULL) \
-            return t;           \
+#define ATTEMPT_READ(c, func)                                                                      \
+    do {                                                                                           \
+        Token t = (func)(c);                                                                       \
+        if (t.type != TOK_NULL)                                                                    \
+            return t;                                                                              \
     } while (0)
 
-#define ATTEMPT_READ_CHAR(ctx, tok, ch, type_) \
-    do {                                       \
-        char c = peek_char(ctx);               \
-        if (c == (ch)) {                       \
-            (tok).type = (type_);              \
-            next_char(ctx);                    \
-            return (tok);                      \
-        }                                      \
+#define ATTEMPT_READ_CHAR(ctx, tok, ch, type_)                                                     \
+    do {                                                                                           \
+        char c = peek_char(ctx);                                                                   \
+        if (c == (ch)) {                                                                           \
+            (tok).type = (type_);                                                                  \
+            next_char(ctx);                                                                        \
+            return (tok);                                                                          \
+        }                                                                                          \
     } while (0)
 
-Token lexer_get_token(Lexer *ctx)
-{
+Token lexer_get_token(Lexer* ctx) {
     if (!is_empty_token_queue(ctx))
         return remove_token_queue(ctx);
 
@@ -425,31 +389,30 @@ Token lexer_get_token(Lexer *ctx)
     return get_tok(ctx, TOK_ERR);
 }
 
-char *lexer_token_type_str(enum TokenType type)
-{
+char* lexer_token_type_str(enum TokenType type) {
     switch (type) {
-    case TOK_NULL:
-        return "<null>";
-    case TOK_EOF:
-        return "<end of file>";
-    case TOK_ERR:
-        return "<TOKEN ERROR>";
-    case TOK_NEW_LN:
-        return "<newline>";
-    case TOK_BLK_OPEN:
-        return block_open;
-    case TOK_BLK_CLS:
-        return block_close;
-    case TOK_SLASH:
-        return slash;
-    case TOK_STAR:
-        return star;
-    case TOK_DOT:
-        return dot;
-    case TOK_INT:
-        return "<integer>";
-    case TOK_STR:
-        return "<string>";
+        case TOK_NULL:
+            return "<null>";
+        case TOK_EOF:
+            return "<end of file>";
+        case TOK_ERR:
+            return "<TOKEN ERROR>";
+        case TOK_NEW_LN:
+            return "<newline>";
+        case TOK_BLK_OPEN:
+            return block_open;
+        case TOK_BLK_CLS:
+            return block_close;
+        case TOK_SLASH:
+            return slash;
+        case TOK_STAR:
+            return star;
+        case TOK_DOT:
+            return dot;
+        case TOK_INT:
+            return "<integer>";
+        case TOK_STR:
+            return "<string>";
     }
 
     PRINTINTERR("unknown type: %d", type);

@@ -3,8 +3,8 @@
 
 #include <stdlib.h>
 
-#include "vector.h"
 #include "result.h"
+#include "vector.h"
 
 enum PreviewAttr {
     PREV_ATTR_NONE = 0,
@@ -24,12 +24,12 @@ typedef struct {
     char *f, *w, *h, *x, *y, *id;
     char *cache_file, *cache_dir;
     int cache_valid;
-    char *mode;
+    char* mode;
 } PreviewArgs;
 
-void previews_init(Preview *ps, size_t len);
+void previews_init(Preview* ps, size_t len);
 void previews_cleanup(void);
-RESULT preview_run(const char *ext, const char *mimetype, PreviewArgs *pa);
-Preview **previews_get(size_t *len);
+RESULT preview_run(const char* ext, const char* mimetype, PreviewArgs* pa);
+Preview** previews_get(size_t* len);
 
 #endif

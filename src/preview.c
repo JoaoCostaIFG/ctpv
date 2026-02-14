@@ -1,17 +1,17 @@
-#include <stdio.h>
 #include <signal.h>
+#include <stdio.h>
 #include <unistd.h>
 
-#include "utils.h"
 #include "error.h"
-#include "shell.h"
-#include "server.h"
 #include "preview.h"
+#include "server.h"
+#include "shell.h"
+#include "utils.h"
 
 #define FAILED_PREVIEW_EC NOTEXIST_EC
-#define ENOUGH_READ_EC    141
+#define ENOUGH_READ_EC 141
 
-#define PREVP_SIZE sizeof(Preview *)
+#define PREVP_SIZE sizeof(Preview*)
 
 #define MIMETYPE_MAX 64
 
@@ -19,13 +19,12 @@ VECTOR_GEN_SOURCE(Preview, Preview)
 
 static struct {
     size_t len;
-    Preview **list;
+    Preview** list;
 } previews;
 
-static int cmp_previews(const void *p1, const void *p2)
-{
-    Preview *pr1 = *(Preview **)p1;
-    Preview *pr2 = *(Preview **)p2;
+static int cmp_previews(const void* p1, const void* p2) {
+    Preview* pr1 = *(Preview**)p1;
+    Preview* pr2 = *(Preview**)p2;
 
     int i;
 
@@ -47,8 +46,7 @@ static int cmp_previews(const void *p1, const void *p2)
     return i;
 }
 
-void previews_init(Preview *ps, size_t len)
-{
+void previews_init(Preview* ps, size_t len) {
     previews.len = len;
 
     previews.list = malloc(len * PREVP_SIZE);
@@ -63,8 +61,7 @@ void previews_init(Preview *ps, size_t len)
     qsort(previews.list, previews.len, PREVP_SIZE, cmp_previews);
 }
 
-void previews_cleanup(void)
-{
+void previews_cleanup(void) {
     if (!previews.list)
         return;
 
@@ -73,12 +70,11 @@ void previews_cleanup(void)
     previews.len = 0;
 }
 
-static void break_mimetype(char *mimetype, char **type, char **subtype)
-{
+static void break_mimetype(char* mimetype, char** type, char** subtype) {
     *type = mimetype[0] == '\0' ? NULL : mimetype;
     *subtype = NULL;
 
-    char *s = strchr(mimetype, '/');
+    char* s = strchr(mimetype, '/');
     if (!s) {
         PRINTINTERR("invalid mimetype: '%s'", mimetype);
         abort();
@@ -88,11 +84,9 @@ static void break_mimetype(char *mimetype, char **type, char **subtype)
     *subtype = &s[1];
 }
 
-static Preview *find_preview(const char *type, const char *subtype,
-                             const char *ext, size_t *i)
-{
-    Preview *p;
-    const char *rext;
+static Preview* find_preview(const char* type, const char* subtype, const char* ext, size_t* i) {
+    Preview* p;
+    const char* rext;
 
     for (; *i < previews.len; (*i)++) {
         p = previews.list[*i];
@@ -119,22 +113,21 @@ static Preview *find_preview(const char *type, const char *subtype,
     return NULL;
 }
 
-static void check_init_previews(void)
-{
+static void check_init_previews(void) {
     if (!previews.list) {
         PRINTINTERR("init_previews() not called");
         abort();
     }
 }
 
-static RESULT run(Preview *p, int *exitcode, int *signal)
-{
+static RESULT run(Preview* p, int* exitcode, int* signal) {
     int pipe_fds[2];
     ERRCHK_RET_ERN(pipe(pipe_fds) == -1);
 
-    int sp_arg[] = { pipe_fds[0], pipe_fds[1], STDERR_FILENO };
+    int sp_arg[] = {pipe_fds[0], pipe_fds[1], STDERR_FILENO};
 
-    enum Result ret = run_script(p->script, p->script_len, exitcode, signal, spawn_redirect, sp_arg);
+    enum Result ret =
+        run_script(p->script, p->script_len, exitcode, signal, spawn_redirect, sp_arg);
 
     close(pipe_fds[1]);
 
@@ -156,14 +149,13 @@ static RESULT run(Preview *p, int *exitcode, int *signal)
     return ret;
 }
 
-#define SET_PENV(n, v)                                \
-    do {                                              \
-        if (v)                                        \
-            ERRCHK_RET_ERN(setenv((n), (v), 1) != 0); \
+#define SET_PENV(n, v)                                                                             \
+    do {                                                                                           \
+        if (v)                                                                                     \
+            ERRCHK_RET_ERN(setenv((n), (v), 1) != 0);                                              \
     } while (0)
 
-RESULT preview_run(const char *ext, const char *mimetype, PreviewArgs *pa)
-{
+RESULT preview_run(const char* ext, const char* mimetype, PreviewArgs* pa) {
     if (pa->id || (pa->id = getenv("id")))
         ERRCHK_RET_OK(server_set_fifo_var(pa->id));
 
@@ -177,7 +169,7 @@ RESULT preview_run(const char *ext, const char *mimetype, PreviewArgs *pa)
     SET_PENV("cache_d", pa->cache_dir);
 
     {
-        char *s = pa->cache_valid ? "1" : "";
+        char* s = pa->cache_valid ? "1" : "";
         SET_PENV("cache_valid", s);
     }
 
@@ -187,7 +179,7 @@ RESULT preview_run(const char *ext, const char *mimetype, PreviewArgs *pa)
 
     check_init_previews();
 
-    Preview *p;
+    Preview* p;
     size_t i = 0;
     int exitcode, signal;
     char mimetype_c[MIMETYPE_MAX], *t, *s;
@@ -203,19 +195,19 @@ run:
     }
 
     if (ctpv.debug)
-      fprintf(stderr, "Running preview: %s\n", p->name);
+        fprintf(stderr, "Running preview: %s\n", p->name);
 
     ERRCHK_RET_OK(run(p, &exitcode, &signal));
 
     switch (exitcode) {
-    case FAILED_PREVIEW_EC:
-        if (ctpv.debug)
-          fprintf(stderr, "Preview %s failed\n", p->name);
-        i++;
-        goto run;
-    case ENOUGH_READ_EC:
-        exitcode = 0;
-        break;
+        case FAILED_PREVIEW_EC:
+            if (ctpv.debug)
+                fprintf(stderr, "Preview %s failed\n", p->name);
+            i++;
+            goto run;
+        case ENOUGH_READ_EC:
+            exitcode = 0;
+            break;
     }
 
     if (signal == SIGPIPE)
@@ -224,8 +216,7 @@ run:
     return exitcode == 0 ? OK : ERR;
 }
 
-Preview **previews_get(size_t *len)
-{
+Preview** previews_get(size_t* len) {
     check_init_previews();
     *len = previews.len;
     return previews.list;
