@@ -196,7 +196,7 @@ Add these lines to your lf config
 set previewer ctpv
 set cleaner ctpvclear
 &ctpv -s $id
-&ctpvquit $id
+cmd on-quit ctpvquit $id
 ```
 
 #### Wayland

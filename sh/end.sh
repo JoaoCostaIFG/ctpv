@@ -6,6 +6,8 @@ printf '\0' >"$fifo"
 # Kill running icat
 icat_pid="$(kitty_icat_pid)"
 if [ -e "$icat_pid" ]; then
-	pid="$(cat "$icat_pid")"
-	kill "$pid"
+  pid="$(cat "$icat_pid")"
+  kill "$pid"
 fi
+
+is_kitty && kitty_clear
