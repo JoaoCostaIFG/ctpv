@@ -48,7 +48,7 @@ For example, you only need either `elinks`, `lynx` or
 | audio | [ffmpegthumbnailer][ffmpegthumbnailer] [ffmpeg][ffmpeg] |
 | diff | [colordiff][colordiff] [delta][delta] [diff-so-fancy][diff-so-fancy] |
 | directory | ls |
-| font | fontimage |
+| font | magick |
 | gpg-encrypted | [gpg][gpg] |
 | html | [elinks][elinks] [lynx][lynx] [w3m][w3m] |
 | image | [ueberzug][ueberzug] [chafa][chafa] |
@@ -56,7 +56,7 @@ For example, you only need either `elinks`, `lynx` or
 | markdown | [glow][glow] [mdcat][mdcat] |
 | office | [libreoffice][libreoffice] |
 | pdf | pdftoppm |
-| svg | convert |
+| svg | magick |
 | text | bat cat [highlight][highlight] [source-highlight][source-highlight] |
 | torrent | transmission-show |
 | video | [ffmpegthumbnailer][ffmpegthumbnailer] |
