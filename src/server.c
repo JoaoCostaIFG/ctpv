@@ -157,7 +157,7 @@ exit:
     return ret;
 }
 
-static inline RESULT run_server_script(char* script, size_t script_len, char* arg) {
+static inline RESULT run_server_script(unsigned char* script, size_t script_len, char* arg) {
     return run_script(script, script_len, NULL, NULL, NULL, NULL);
 }
 

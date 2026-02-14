@@ -30,7 +30,7 @@ void getvarname(char* res, char* prefix, char* filename) {
     res[i] = '\0';
 }
 
-void print_char(char c) {
+void print_char(unsigned char c) {
     printf("0x%x, ", c);
 }
 
@@ -54,7 +54,7 @@ void embed_file(char* prefix, char* filename, char* helpers) {
 
     getvarname(varname, prefix, filename);
 
-    printf("char %s[] = { ", varname);
+    printf("unsigned char %s[] = { ", varname);
 
     if (helpers) {
         print_file(helpers);

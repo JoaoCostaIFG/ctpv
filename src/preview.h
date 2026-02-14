@@ -12,7 +12,8 @@ enum PreviewAttr {
 };
 
 typedef struct {
-    char *name, *ext, *type, *subtype, *script;
+    char *name, *ext, *type, *subtype;
+    unsigned char* script;
     int order, priority;
     enum PreviewAttr attrs;
     size_t script_len;

@@ -87,7 +87,7 @@ static void add_preview(Parser* ctx, char* name, char* script, struct TypeSet* s
         any_type_null(&set[i].subtype);
 
         Preview p = (Preview){.name = name,
-                              .script = script,
+                              .script = (unsigned char*)script,
                               .script_len = script_len,
                               .ext = set[i].ext,
                               .type = set[i].type,

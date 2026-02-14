@@ -10,7 +10,7 @@
  *
  * User must call free()
  */
-static char* prepend_helpers(char* str, size_t len) {
+static char* prepend_helpers(unsigned char* str, size_t len) {
     char *buf, *b;
     size_t l, helpers_len = LEN(scr_helpers_sh) - 1;
 
@@ -35,8 +35,8 @@ static char* prepend_helpers(char* str, size_t len) {
 #define OPT_SETENV_STR(name)                                                                       \
     ERRCHK_RET_ERN(setenv((#name), (ctpv.opts.name ? ctpv.opts.name : ""), 1) == -1)
 
-RESULT run_script(char* script, size_t script_len, int* exitcode, int* signal, SpawnProg sp,
-                  void* sp_arg) {
+RESULT run_script(unsigned char* script, size_t script_len, int* exitcode, int* signal,
+                  SpawnProg sp, void* sp_arg) {
     OPT_SETENV_INT(forcekitty);
     OPT_SETENV_INT(forcekittyanim);
     OPT_SETENV_INT(forcechafa);
