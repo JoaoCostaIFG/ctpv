@@ -44,7 +44,7 @@ For example, you only need either `elinks`, `lynx` or
 | File types | Programs |
 | ---- | ---- |
 | any | [exiftool][exiftool] cat |
-| archive | [atool][atool] |
+| archive | [ouch][ouch] [atool][atool] |
 | audio | [ffmpegthumbnailer][ffmpegthumbnailer] [ffmpeg][ffmpeg] |
 | diff | [colordiff][colordiff] [delta][delta] [diff-so-fancy][diff-so-fancy] |
 | directory | ls |
@@ -75,6 +75,7 @@ For example, you only need either `elinks`, `lynx` or
 [mdcat]: https://github.com/swsnr/mdcat
 [glow]: https://github.com/charmbracelet/glow
 [atool]: https://www.nongnu.org/atool/
+[ouch]: https://github.com/ouch-org/ouch
 [lynx]: https://github.com/jpanther/lynx
 [libreoffice]: https://www.libreoffice.org/
 [diff-so-fancy]: https://github.com/so-fancy/diff-so-fancy
