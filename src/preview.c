@@ -183,6 +183,7 @@ RESULT preview_run(const char *ext, const char *mimetype, PreviewArgs *pa)
 
     SET_PENV("m", mimetype);
     SET_PENV("e", ext);
+    SET_PENV("mode", pa->mode);
 
     check_init_previews();
 

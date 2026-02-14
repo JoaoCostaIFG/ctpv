@@ -93,6 +93,10 @@ kitty_icat_pid() {
 
 send_image() {
 	noimages && return 127
+	
+	# In preload mode, images don't need preloading (no cache generation needed)
+	# Exit successfully without displaying
+	[ "$mode" = "preload" ] && exit 1
 
 	case "$image_method" in
 		"$image_method_ueberzug")
@@ -100,13 +104,13 @@ send_image() {
 			printf '{ "action": "add", "identifier": "preview", "x": %d, "y": %d, "width": %d, "height": %d, "scaler": "contain", "scaling_position_x": 0.5, "scaling_position_y": 0.5, "path": "%s" }\n' "$x" "$y" "$w" "$h" "$path" > "$fifo"
 			return 1
 			;;
-		"$image_method_kitty")
-			kitty +kitten icat --silent --stdin no --transfer-mode file \
-				--place "${w}x${h}@${x}x${y}" "$1" < /dev/null > /dev/tty
-			printf '%d\n' "$!" > "$(kitty_icat_pid)"
-			wait
-			return 1
-			;;
+	"$image_method_kitty")
+		kitty +kitten icat --silent --stdin no --transfer-mode file \
+			--place "${w}x${h}@${x}x${y}" "$1" < /dev/null > /dev/tty &
+		printf '%d\n' "$!" > "$(kitty_icat_pid)"
+		wait
+		return 1
+		;;
 		"$image_method_chafa")
 			chafa_run "$1"
 			;;
@@ -118,6 +122,16 @@ send_image() {
 
 convert_and_show_image() {
 	noimages && return 127
+	
+	# In preload mode, only generate cache and exit
+	if [ "$mode" = "preload" ]; then
+		# If cache is already valid, nothing to do - exit immediately
+		[ -n "$cache_valid" ] && exit 1
+		# Cache invalid - generate it
+		"$@" || exit "$?"
+		exit 1  # Success without output (following lf PR convention)
+	fi
+	
 	setup_image
 	[ -n "$cache_valid" ] || "$@" || exit "$?"
 	send_image "$cache_f"

@@ -240,10 +240,6 @@ static RESULT preview(int argc, char *argv[])
 	GET_PARG(y, 4);
 	GET_PARG(mode, 5);
 
-	/* Handle preload mode - exit early without generating output */
-	if (mode && strcmp(mode, "preload") == 0)
-		return OK;
-
 	if (!w)
 		w = "80";
 	if (!h)
@@ -303,6 +299,7 @@ static RESULT preview(int argc, char *argv[])
 		.cache_dir = cache_dir,
 		.cache_file = cache_file,
 		.cache_valid = cache_valid,
+		.mode = mode,
 	};
 
     return preview_run(get_ext(input_f.path), mimetype, &args);

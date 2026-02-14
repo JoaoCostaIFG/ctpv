@@ -24,6 +24,7 @@ typedef struct {
     char *f, *w, *h, *x, *y, *id;
     char *cache_file, *cache_dir;
     int cache_valid;
+    char *mode;
 } PreviewArgs;
 
 void previews_init(Preview *ps, size_t len);
