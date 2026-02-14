@@ -27,10 +27,9 @@ chafasixel() {
 }
 
 is_kitty() {
-  [ -n "$KITTY_PID" ] && return 0
-
   case "$TERM" in
   *-kitty) return 0 ;;
+  *-ghostty) return 0 ;;
   *) return 1 ;;
   esac
 }
