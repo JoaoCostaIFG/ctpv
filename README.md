@@ -43,6 +43,7 @@ For example, you only need either `elinks`, `lynx` or
 <!--TABLESTART-->
 | File types | Programs |
 | ---- | ---- |
+| 3d | [f3d][f3d] |
 | any | [exiftool][exiftool] cat |
 | archive | [ouch][ouch] [atool][atool] |
 | audio | [ffmpegthumbnailer][ffmpegthumbnailer] [ffmpeg][ffmpeg] |
@@ -61,6 +62,7 @@ For example, you only need either `elinks`, `lynx` or
 | torrent | transmission-show |
 | video | [ffmpegthumbnailer][ffmpegthumbnailer] |
 
+[f3d]: https://f3d-app.github.io/f3d/
 [ffmpegthumbnailer]: https://github.com/dirkvdb/ffmpegthumbnailer
 [w3m]: https://w3m.sourceforge.net/
 [elinks]: http://elinks.cz/

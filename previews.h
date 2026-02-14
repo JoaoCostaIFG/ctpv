@@ -64,6 +64,19 @@ Preview b_previews[] = {
 
     PR(NULL, "font", NULL, font, PREV_ATTR_NONE),
 
+    PR("stl", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("3mf", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("obj", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("ply", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("gltf", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("glb", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("fbx", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("dae", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("off", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("vtp", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR("vtu", NULL, NULL, 3d, PREV_ATTR_NONE),
+    PR(NULL, "model", NULL, 3d, PREV_ATTR_NONE),
+
     PR("tar.gz", NULL, NULL, ouch, PREV_ATTR_NONE),
     PR("tgz", NULL, NULL, ouch, PREV_ATTR_NONE),
     PR("tar.bz", NULL, NULL, ouch, PREV_ATTR_NONE),
