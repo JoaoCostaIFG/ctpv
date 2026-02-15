@@ -27,7 +27,7 @@ options:
 
 install: install.bin install.man
 
-install.bin: ctpv quit/ctpvquit ctpvclear
+install.bin: ctpv ctpvclear ctpvquit
 	$(MKDIR) $(BINPREFIX)
 	$(INSTALL_EXE) $^ $(BINPREFIX)
 
@@ -42,7 +42,6 @@ uninstall:
 clean:
 	$(RM) ctpv $(OBJ) $(DEP) $(GEN)
 	$(MAKE) -C embed clean
-	$(MAKE) -C quit clean
 
 docs: README.md doc/ctpv.1
 	deptable/list.awk $(PRE) | deptable/markdown.sed | deptable/insert.awk README.md
@@ -79,9 +78,6 @@ gen:
 
 embed/embed: .force
 	$(MAKE) -C embed
-
-quit/ctpvquit: .force
-	$(MAKE) -C quit
 
 -include $(DEP)
 

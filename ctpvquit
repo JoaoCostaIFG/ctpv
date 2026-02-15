@@ -3,4 +3,4 @@
 [ -z "$id" ] && id="$1"
 [ -z "$id" ] && exit 1
 
-exec ctpv -c "$id"
+exec ctpv -e "$id"

@@ -177,7 +177,7 @@ programs.lf = {
   };
   extraConfig = ''
     &${pkgs.ctpv}/bin/ctpv -s $id
-    cmd on-quit %${pkgs.ctpv}/bin/ctpv -e $id
+    cmd on-quit %${pkgs.ctpv}/bin/ctpvquit
     set cleaner ${pkgs.ctpv}/bin/ctpvclear
   '';
 }
@@ -209,7 +209,7 @@ Add these lines to your lf config
 set previewer ctpv
 set cleaner ctpvclear
 cmd on-quit &{{
-  ctpvquit "$id"
+  ctpvquit
 }}
 # does nothing when not using ueberzug (you can skip it)
 &ctpv -s $id

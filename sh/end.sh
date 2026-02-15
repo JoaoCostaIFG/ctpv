@@ -7,7 +7,7 @@ printf '\0' >"$fifo"
 icat_pid="$(kitty_icat_pid)"
 if [ -e "$icat_pid" ]; then
   pid="$(cat "$icat_pid")"
-  kill "$pid"
+  kill "$pid" 2>/dev/null
 fi
 
 is_kitty && kitty_clear
