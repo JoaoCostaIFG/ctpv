@@ -1,7 +1,7 @@
 # Maintainer: Joao Costa <arch@joaocosta.dev>
 _name=ctpv
 pkgname="${_name}-joaocostaifg-git"
-pkgver=r273.7ebb273
+pkgver=r287.185b656
 pkgrel=1
 pkgdesc="Fast image previews for lf"
 arch=('i686' 'x86_64')
@@ -28,10 +28,9 @@ optdepends=(
   'imagemagick: for svg, webp and font files'
   'isoinfo: for iso files'
   'jq: for json and jupyter notebook files'
-  'jupyter: for jupyter notebook files'
+  'jupyter-notebook: for jupyter notebook files'
   'libreoffice-fresh: for office files'
   'lynx: for html files'
-  'magick: provides imagemagick'
   'mdcat: for markdown files'
   'ouch: for archive files'
   'pandoc: for epub files'
