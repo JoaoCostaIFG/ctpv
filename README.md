@@ -18,8 +18,12 @@ See [Previews](#previews) for more info.
 
 Image previews are powered by one of these programs:
 
-* [Chafa][chafa] (X11 and Wayland)
-* [Kitty terminal][kitty]
+* [Chafa][chafa]
+* [Kitty image protocol][kitty]
+
+**This is an actively maintained fork** of the original ctpv project.
+It aims to stay up-to-date with the latest [lf][lf] releases, fix bugs,
+add new previewers, and improve existing ones.
 
 ctpv is a remake of an awesome program named
 [stpv](https://github.com/Naheel-Azawy/stpv).
@@ -69,12 +73,10 @@ For example, you only need either `elinks`, `lynx` or
 [ffmpegthumbnailer]: https://github.com/dirkvdb/ffmpegthumbnailer
 [w3m]: https://w3m.sourceforge.net/
 [elinks]: http://elinks.cz/
-[fontforge]: https://fontforge.org
 [exiftool]: https://github.com/exiftool/exiftool
 [highlight]: https://gitlab.com/saalen/highlight
 [chafa]: https://github.com/hpjansson/chafa
 [gpg]: https://www.gnupg.org/
-[transmission]: https://transmissionbt.com/
 [delta]: https://github.com/dandavison/delta
 [colordiff]: https://www.colordiff.org/
 [source-highlight]: https://www.gnu.org/software/src-highlite/
@@ -84,8 +86,6 @@ For example, you only need either `elinks`, `lynx` or
 [lynx]: https://github.com/jpanther/lynx
 [libreoffice]: https://www.libreoffice.org/
 [diff-so-fancy]: https://github.com/so-fancy/diff-so-fancy
-[imagemagick]: https://imagemagick.org/
-[poppler]: https://poppler.freedesktop.org/
 [jq]: https://github.com/jqlang/jq
 [ffmpeg]: https://ffmpeg.org/
 
@@ -125,82 +125,18 @@ sudo make uninstall
 
 ### AUR
 
-If you are an Arch Linux user, you can install
-[`ctpv-git`](https://aur.archlinux.org/packages/ctpv-git)
-AUR package.
+If you are an Arch Linux user, you can install the [PKGBUILD](./PKGBUILD)
+file in this repo.
 
 ```bash
-yay -S ctpv-git
-```
-
-### MacPorts
-
-With MacPorts, you can install the
-[`ctpv`](https://ports.macports.org/port/ctpv)
-package.
-
-```bash
-sudo port install ctpv
-```
-
-### Homebrew
-
-With Homebrew, you can install the
-[`ctpv`](https://formulae.brew.sh/formula/ctpv)
-package.
-
-```bash
-brew install ctpv
-```
-
-### Nix
-
-#### Nix package
-
-```bash
-nix-env -ivf cptv
-nix profile install nixpkgs#cptv # with flakes enabled
-```
-
-#### NixOS and HomeManager
-
-If you don't need to call it directly and
-just want to use it through lf:
-
-```nix
-programs.lf = {
-  previewer = {
-    keybinding = "i";
-    source = "${pkgs.ctpv}/bin/ctpv";
-  };
-  extraConfig = ''
-    cmd on-quit %${pkgs.ctpv}/bin/ctpvquit
-    set cleaner ${pkgs.ctpv}/bin/ctpvclear
-  '';
-}
-```
-
-### Gentoo
-
-Add this
-[ctpv-9999.ebuild](https://github.com/Sneethe/sneethe-overlay/blob/main/app-misc/ctpv/ctpv-9999.ebuild)
-to your own
-[repository](https://wiki.gentoo.org/wiki/Creating_an_ebuild_repository).
-
-Or alternatively:
-
-```bash
-eselect repository add sneethe-overlay git https://github.com/Sneethe/sneethe-overlay.git
-emaint sync --repo sneethe-overlay
-emerge --ask --verbose app-misc/ctpv
+makepkg -si
 ```
 
 ## Integration
 
 ### lf file manager
 
-Add these lines to your lf config
-(usually located at `~/.config/lf/lfrc`).
+Add these lines to your lf config (usually located at `~/.config/lf/lfrc`).
 
 ```bash
 set previewer ctpv
@@ -210,25 +146,32 @@ cmd on-quit &{{
 }}
 ```
 
-#### Wayland
+### Image previews
 
-If you use Wayland, follow these steps:
+ctpv supports multiple methods for displaying image previews, depending on your terminal and installed tools:
 
-* Make sure you use one of the [terminals that support sixel][sixel]
-* Install [this fork of lf][lf-sixel]
-* Install [Chafa][chafa]
-* Add `set chafasixel` to `~/.config/ctpv/config`
+**Kitty image protocol** (recommended)
+If your terminal supports it (e.g., Kitty, Ghostty), ctpv will automatically use the Kitty image protocol for native image rendering.
 
-As of 2023-03-19, original lf does not support sixel protocol,
-which is why you need use the fork.
+**Sixel support**
+For terminals that support Sixel graphics with Chafa, enable sixel output by adding the following to `~/.config/ctpv/config`:
+
+```
+set chafasixel
+```
+
+**Fallback**
+If neither of the above options are available, ctpv will use Chafa's lower-resolution Unicode/ANSI character-based previews.
 
 ## Documentation
 
 Full documentation on command line options,
-configuration and how to define custom previews can be found here:
-<https://www.nikitaivanov.com/man1/ctpv>
+configuration and how to define custom previews can be in the
+man page:
+
+```bash
+man ctpv
+```
 
 [kitty]: https://github.com/kovidgoyal/kitty
 [lf]: https://github.com/gokcehan/lf
-[lf-sixel]: https://github.com/horriblename/lf
-[sixel]: https://www.arewesixelyet.com
