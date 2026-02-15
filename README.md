@@ -18,7 +18,6 @@ See [Previews](#previews) for more info.
 
 Image previews are powered by one of these programs:
 
-* [Überzug][ueberzug] (X11 only)
 * [Chafa][chafa] (X11 and Wayland)
 * [Kitty terminal][kitty]
 
@@ -53,7 +52,7 @@ For example, you only need either `elinks`, `lynx` or
 | font | magick |
 | gpg-encrypted | [gpg][gpg] |
 | html | [elinks][elinks] [lynx][lynx] [w3m][w3m] |
-| image | [ueberzug][ueberzug] [chafa][chafa] |
+| image | [chafa][chafa] |
 | iso | isoinfo 7z |
 | json | [jq][jq] |
 | jupyter | jupyter nbconvert [jq][jq] |
@@ -79,7 +78,6 @@ For example, you only need either `elinks`, `lynx` or
 [delta]: https://github.com/dandavison/delta
 [colordiff]: https://www.colordiff.org/
 [source-highlight]: https://www.gnu.org/software/src-highlite/
-[ueberzug]: https://github.com/seebye/ueberzug
 [mdcat]: https://github.com/swsnr/mdcat
 [glow]: https://github.com/charmbracelet/glow
 [atool]: https://www.nongnu.org/atool/
@@ -176,7 +174,6 @@ programs.lf = {
     source = "${pkgs.ctpv}/bin/ctpv";
   };
   extraConfig = ''
-    &${pkgs.ctpv}/bin/ctpv -s $id
     cmd on-quit %${pkgs.ctpv}/bin/ctpvquit
     set cleaner ${pkgs.ctpv}/bin/ctpvclear
   '';
@@ -211,8 +208,6 @@ set cleaner ctpvclear
 cmd on-quit &{{
   ctpvquit
 }}
-# does nothing when not using ueberzug (you can skip it)
-&ctpv -s $id
 ```
 
 #### Wayland

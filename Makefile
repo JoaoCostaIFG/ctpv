@@ -6,7 +6,7 @@ SRC := $(wildcard src/*.c)
 OBJ := $(SRC:.c=.o)
 DEP := $(OBJ:.o=.d)
 PRE := $(wildcard sh/prev/*)
-GEN := gen/help.h gen/previews.h gen/server.h gen/helpers.h
+GEN := gen/help.h gen/previews.h gen/cleanup.h gen/helpers.h
 
 LIBS := magic crypto
 
@@ -57,7 +57,7 @@ ctpv: $(OBJ)
 # Exclicit rules for generated header files
 src/ctpv.o: gen/previews.h gen/help.h
 src/shell.o: gen/helpers.h
-src/server.o: gen/server.h
+src/cleanup.o: gen/cleanup.h
 
 gen/help.h: help.txt embed/embed
 	embed/embed help.txt > $@
@@ -65,7 +65,7 @@ gen/help.h: help.txt embed/embed
 gen/previews.h: $(PRE) embed/embed
 	embed/embed -p prev_scr_ $(PRE) > $@
 
-gen/server.h: sh/clear.sh sh/end.sh embed/embed
+gen/cleanup.h: sh/clear.sh sh/end.sh embed/embed
 	embed/embed -p scr_ sh/clear.sh sh/end.sh > $@
 
 gen/helpers.h: sh/helpers.sh embed/embed

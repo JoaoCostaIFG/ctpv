@@ -1,4 +1,4 @@
-# image: ueberzug chafa
+# image: chafa
 
 setup_image
 
