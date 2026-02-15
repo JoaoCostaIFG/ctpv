@@ -77,11 +77,14 @@ allbox;
 lb lb
 l li .
 File type	Programs
+3d	T{
+f3d
+T}
 any	T{
 exiftool cat
 T}
 archive	T{
-atool
+atool ouch
 T}
 audio	T{
 ffmpegthumbnailer ffmpeg
@@ -93,7 +96,7 @@ directory	T{
 ls
 T}
 font	T{
-fontimage
+magick
 T}
 gpg-encrypted	T{
 gpg
@@ -104,8 +107,14 @@ T}
 image	T{
 ueberzug chafa
 T}
+iso	T{
+isoinfo 7z
+T}
 json	T{
 jq
+T}
+jupyter	T{
+jupyter nbconvert jq
 T}
 markdown	T{
 glow mdcat
@@ -116,8 +125,11 @@ T}
 pdf	T{
 pdftoppm
 T}
+sqlite	T{
+sqlite3
+T}
 svg	T{
-convert
+magick
 T}
 text	T{
 bat cat highlight source\-highlight
@@ -127,6 +139,9 @@ transmission\-show
 T}
 video	T{
 ffmpegthumbnailer
+T}
+webp	T{
+magick
 T}
 .TE
 .\" TABLEEND

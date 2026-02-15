@@ -169,6 +169,12 @@ Preview b_previews[] = {
     PR("7z", NULL, NULL, atool, PREV_ATTR_NONE),
     PR("cpio", NULL, NULL, atool, PREV_ATTR_NONE),
 
+    PR("iso", NULL, NULL, iso, PREV_ATTR_NONE),
+    PR("ipynb", NULL, NULL, jupyter, PREV_ATTR_NONE),
+    PR("sqlite", NULL, NULL, sqlite, PREV_ATTR_NONE),
+    PR("sqlite3", NULL, NULL, sqlite, PREV_ATTR_NONE),
+    PR("db", NULL, NULL, sqlite, PREV_ATTR_NONE),
+
     PR("torrent", NULL, NULL, torrent, PREV_ATTR_EXT_SHORT),
     PR("gpg", NULL, NULL, gpg, PREV_ATTR_EXT_SHORT),
 };

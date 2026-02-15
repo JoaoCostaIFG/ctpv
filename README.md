@@ -43,9 +43,9 @@ For example, you only need either `elinks`, `lynx` or
 <!--TABLESTART-->
 | File types | Programs |
 | ---- | ---- |
-| 3d | [f3d][f3d] |
+| 3d | f3d |
 | any | [exiftool][exiftool] cat |
-| archive | [ouch][ouch] [atool][atool] |
+| archive | [atool][atool] ouch |
 | audio | [ffmpegthumbnailer][ffmpegthumbnailer] [ffmpeg][ffmpeg] |
 | diff | [colordiff][colordiff] [delta][delta] [diff-so-fancy][diff-so-fancy] |
 | directory | ls |
@@ -53,23 +53,28 @@ For example, you only need either `elinks`, `lynx` or
 | gpg-encrypted | [gpg][gpg] |
 | html | [elinks][elinks] [lynx][lynx] [w3m][w3m] |
 | image | [ueberzug][ueberzug] [chafa][chafa] |
+| iso | isoinfo 7z |
 | json | [jq][jq] |
+| jupyter | jupyter nbconvert [jq][jq] |
 | markdown | [glow][glow] [mdcat][mdcat] |
 | office | [libreoffice][libreoffice] |
 | pdf | pdftoppm |
+| sqlite | sqlite3 |
 | svg | magick |
 | text | bat cat [highlight][highlight] [source-highlight][source-highlight] |
 | torrent | transmission-show |
 | video | [ffmpegthumbnailer][ffmpegthumbnailer] |
+| webp | magick |
 
-[f3d]: https://f3d-app.github.io/f3d/
 [ffmpegthumbnailer]: https://github.com/dirkvdb/ffmpegthumbnailer
 [w3m]: https://w3m.sourceforge.net/
 [elinks]: http://elinks.cz/
+[fontforge]: https://fontforge.org
 [exiftool]: https://github.com/exiftool/exiftool
 [highlight]: https://gitlab.com/saalen/highlight
 [chafa]: https://github.com/hpjansson/chafa
 [gpg]: https://www.gnupg.org/
+[transmission]: https://transmissionbt.com/
 [delta]: https://github.com/dandavison/delta
 [colordiff]: https://www.colordiff.org/
 [source-highlight]: https://www.gnu.org/software/src-highlite/
@@ -77,10 +82,11 @@ For example, you only need either `elinks`, `lynx` or
 [mdcat]: https://github.com/swsnr/mdcat
 [glow]: https://github.com/charmbracelet/glow
 [atool]: https://www.nongnu.org/atool/
-[ouch]: https://github.com/ouch-org/ouch
 [lynx]: https://github.com/jpanther/lynx
 [libreoffice]: https://www.libreoffice.org/
 [diff-so-fancy]: https://github.com/so-fancy/diff-so-fancy
+[imagemagick]: https://imagemagick.org/
+[poppler]: https://poppler.freedesktop.org/
 [jq]: https://github.com/jqlang/jq
 [ffmpeg]: https://ffmpeg.org/
 
