@@ -1,5 +1,7 @@
 # video: ffmpegthumbnailer
 
+check_exists ffmpegthumbnailer
+
 video() {
   ffmpegthumbnailer -i "$f" -o "$cache_f" -c jpeg -s 0 -q 8 -t 50% 2>/dev/null
 }

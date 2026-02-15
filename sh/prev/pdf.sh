@@ -1,5 +1,7 @@
 # pdf: pdftoppm
 
+check_exists pdftoppm
+
 pdf() {
 	pdftoppm -f 1 -l 1 \
 		-scale-to-x 1920 \

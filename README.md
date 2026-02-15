@@ -93,6 +93,12 @@ For example, you only need either `elinks`, `lynx` or
 
 <!--TABLEEND-->
 
+**Note:** While `bat` is optional, it is highly recommended for optimal text
+previews. When installed, `bat` is used to wrap text output from many other
+previewers to ensure proper line width limiting, preventing text overflow in
+the preview window. Without `bat`, text from tools like `cat`, `jq`,
+`colordiff`, and others may extend beyond the window width.
+
 ## Installation
 
 ### Manual

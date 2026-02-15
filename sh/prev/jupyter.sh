@@ -2,7 +2,7 @@
 
 # Try jupyter nbconvert first (best output)
 if exists jupyter; then
-	jupyter nbconvert --to markdown --stdout "$f" 2>/dev/null
+	jupyter nbconvert --to markdown --stdout "$f" 2>/dev/null | wrap_bat
 	exit $?
 fi
 
@@ -25,7 +25,7 @@ if exists jq; then
 				) | join("\n"))
 			else "" end)
 		)
-	' "$f" 2>/dev/null
+	' "$f" 2>/dev/null | wrap_bat
 	exit $?
 fi
 

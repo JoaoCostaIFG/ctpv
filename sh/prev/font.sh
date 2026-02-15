@@ -1,5 +1,7 @@
 # font: magick
 
+check_exists magick
+
 font() {
   file=${f##*/}
   name=${file%.*}

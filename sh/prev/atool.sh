@@ -1,3 +1,5 @@
 # archive: atool
 
-atool -l -- "$f"
+check_exists atool
+
+atool -l -- "$f" | wrap_bat

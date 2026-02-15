@@ -1,3 +1,5 @@
 # json: jq
 
-jq -C . <"$f"
+check_exists jq
+
+jq -C . <"$f" | wrap_bat

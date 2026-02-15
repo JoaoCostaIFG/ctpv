@@ -1,3 +1,5 @@
 # diff: diff-so-fancy
 
-diff-so-fancy <"$f"
+check_exists diff-so-fancy
+
+diff-so-fancy <"$f" | wrap_bat

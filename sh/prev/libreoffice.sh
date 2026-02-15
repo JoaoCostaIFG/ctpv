@@ -1,5 +1,7 @@
 # office: libreoffice
 
+check_exists libreoffice
+
 doc() {
 	# File produced by libreoffice
 	jpg="$(printf '%s\n' "$f" | sed 's|^.*/||; s|\..*$||')"

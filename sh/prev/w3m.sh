@@ -1,3 +1,5 @@
 # html: w3m
 
-w3m -dump "$f"
+check_exists w3m
+
+w3m -dump -cols "$w" "$f"

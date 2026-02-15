@@ -1,3 +1,5 @@
 # torrent: transmission-show
 
-transmission-show -- "$f"
+check_exists transmission-show
+
+transmission-show -- "$f" | wrap_bat

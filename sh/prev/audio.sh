@@ -1,5 +1,7 @@
 # audio: ffmpegthumbnailer ffmpeg
 
+check_exists ffmpegthumbnailer
+
 audio() {
 	ffmpegthumbnailer -i "$f" -s 0 -q 50% -t 10 -o "$cache_f" 2>/dev/null
 }

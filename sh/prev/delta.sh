@@ -1,3 +1,5 @@
 # diff: delta
 
-delta <"$f"
+check_exists delta
+
+delta <"$f" | wrap_bat

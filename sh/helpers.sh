@@ -155,3 +155,22 @@ convert_and_show_image() {
   [ -n "$cache_valid" ] || "$@" || exit "$?"
   send_image "$cache_f"
 }
+
+wrap_bat() {
+  if exists bat; then
+    batcmd=bat
+  elif exists batcat; then
+    batcmd=batcat
+  else
+    # Fallback: pass through without width limiting
+    cat
+    return $?
+  fi
+
+  "$batcmd" \
+    --color always \
+    --style plain \
+    --paging never \
+    --terminal-width "$w" \
+    --wrap character
+}
