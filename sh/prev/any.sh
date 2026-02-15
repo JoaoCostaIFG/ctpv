@@ -7,23 +7,8 @@ is_binary() {
 
 # For text files, try bat first, then cat
 display_text() {
-  if exists bat; then
-    batcmd=bat
-  elif exists batcat; then
-    batcmd=batcat
-  else
-    # Fallback to cat if bat is not available
-    cat -- "$f"
-    return $?
-  fi
-
-  "$batcmd" \
-    --color always \
-    --style plain \
-    --paging never \
-    --terminal-width "$w" \
-    --wrap character \
-    -- "$f"
+  batcmd=$(get_bat_cmd)
+  $batcmd -- "$f"
 }
 
 # For binary files, try exiftool

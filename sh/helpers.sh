@@ -131,21 +131,22 @@ convert_and_show_image() {
   send_image "$cache_f"
 }
 
-wrap_bat() {
+get_bat_cmd() {
+  ret=""
   if exists bat; then
-    batcmd=bat
+    ret=bat
   elif exists batcat; then
-    batcmd=batcat
-  else
-    # Fallback: pass through without width limiting
-    cat
-    return $?
+    ret=batcat
   fi
 
-  "$batcmd" \
-    --color always \
-    --style plain \
-    --paging never \
-    --terminal-width "$w" \
-    --wrap character
+  if [ -n "$ret" ]; then
+    echo "$ret --color always --style plain --paging never --terminal-width $w --wrap character"
+  else
+    echo 'cat'
+  fi
+}
+
+wrap_bat() {
+  batcmd=$(get_bat_cmd)
+  $batcmd
 }
