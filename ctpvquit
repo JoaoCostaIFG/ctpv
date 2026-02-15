@@ -1,6 +1,3 @@
 #!/bin/sh
 
-[ -z "$id" ] && id="$1"
-[ -z "$id" ] && exit 1
-
-exec ctpv -e "$id"
+exec ctpv -e

@@ -11,11 +11,11 @@
 #include "../gen/help.h"
 #include "../previews.h"
 #include "../version.h"
+#include "cleanup.h"
 #include "config.h"
 #include "ctpv.h"
 #include "error.h"
 #include "preview.h"
-#include "server.h"
 #include "utils.h"
 
 struct InputFile {
@@ -290,18 +290,14 @@ static RESULT preview(int argc, char* argv[]) {
     return preview_run(get_ext(input_f.path), mimetype, &args);
 }
 
-static RESULT server(void) {
-    return server_listen(ctpv.server_id_s);
-}
-
 static RESULT clear(void) {
     ERRCHK_RET_OK(config(0));
-    return server_clear(ctpv.server_id_s);
+    return cleanup_clear();
 }
 
 static RESULT end(void) {
     ERRCHK_RET_OK(config(0));
-    return server_end(ctpv.server_id_s);
+    return cleanup_end();
 }
 
 static RESULT list(void) {
@@ -405,22 +401,16 @@ int main(int argc, char* argv[]) {
     ctpv.debug = 0;
 
     int c;
-    while ((c = getopt(argc, argv, "hs:c:e:lmdv")) != -1) {
+    while ((c = getopt(argc, argv, "hcelmdv")) != -1) {
         switch (c) {
             case 'h':
                 ctpv.mode = MODE_HELP;
                 break;
-            case 's':
-                ctpv.mode = MODE_SERVER;
-                ctpv.server_id_s = optarg;
-                break;
             case 'c':
                 ctpv.mode = MODE_CLEAR;
-                ctpv.server_id_s = optarg;
                 break;
             case 'e':
                 ctpv.mode = MODE_END;
-                ctpv.server_id_s = optarg;
                 break;
             case 'l':
                 ctpv.mode = MODE_LIST;
@@ -449,9 +439,6 @@ int main(int argc, char* argv[]) {
             break;
         case MODE_HELP:
             ret = help();
-            break;
-        case MODE_SERVER:
-            ret = server();
             break;
         case MODE_CLEAR:
             ret = clear();

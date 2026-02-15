@@ -1,5 +1,4 @@
 '\" t
-.ds ub \(:Uberzug
 .
 .TH CTPV 1 2026 Linux "User's Reference Manuals"
 .
@@ -33,8 +32,7 @@ ctpv \- terminal previewer
 .YS
 .
 .SY ctpv
-.RB { \-s | \-c | \-e }
-.I id
+.RB { \-c | \-e }
 .YS
 .
 .SH DESCRIPTION
@@ -108,7 +106,7 @@ html	T{
 elinks lynx w3m
 T}
 image	T{
-ueberzug chafa
+chafa
 T}
 iso	T{
 isoinfo 7z
@@ -164,16 +162,15 @@ configuration file (usually located at
 .EX
 set previewer ctpv
 set cleaner ctpvclear
-&ctpv \-s $id
-&ctpvquit $id
+cmd on-quit &{{
+  ctpvquit
+}}
 .EE
 .RE
 .
 .SS Image previews
 .
-Image previews are enabled by either installing
-.I \*(ub
-or
+Image previews are enabled by installing
 .I Chafa
 (as seen in
 .IR "Built-in previews and dependencies" )
@@ -182,12 +179,7 @@ or using built-in image preview functionality of
 terminal.
 .
 .PP
-When possible,
-.B ctpv
-will prefer
-.I \*(ub
-over others image preview methods. You can override this
-behavior by using
+You can control image preview behavior using
 .B forcekitty
 or
 .B forcechafa
@@ -195,12 +187,6 @@ options (see
 .IR "Preview options" ).
 .
 .PP
-.I \*(ub
-supports
-.I X11
-only, so
-.I Wayland
-is not supported.
 To enable high-resolution image previews on
 .IR Wayland ,
 you need to follow these steps:
@@ -281,25 +267,12 @@ Print extension and MIME type of
 .IR file .
 .
 .TP
-.BR \-s \~\c
-.I id
-Start server with ID
-.IR id .
+.B \-c
+Clear currently displayed preview image (for kitty terminals).
 .
 .TP
-.BR \-c \~\c
-.I id
-Send
-.B clear
-command to server with ID
-.I id
-(usually, it removes image from terminal).
-.
-.TP
-.BR \-e \~\c
-.I id
-Kill server with ID
-.IR id .
+.B \-e
+End preview session and cleanup (for kitty terminals).
 .
 .TP
 .B \-d
@@ -345,13 +318,6 @@ This argument is passed by
 .I lf
 to indicate whether the preview is being displayed or preloaded.
 If not specified, preview mode is assumed (optional).
-.
-.PP
-The server ID is read from the
-.B $id
-environment variable, which is automatically set by
-.IR lf .
-This is used for image preview integration via \*(ub.
 .
 .SH CONFIGURATION
 .
@@ -583,16 +549,6 @@ It's useful if you have a program installed on your system but you
 don't want
 .B ctpv
 to use it for generating previews.
-.
-.SH ENVIRONMENT
-.
-.TP
-.I id
-.I id
-of a server to connect to
-(see
-.B \-s
-option).
 .
 .SH FILES
 .

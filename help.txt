@@ -5,11 +5,8 @@
        -m file ...
               Print extension and MIME type of file.
 
-       -s id  Start server with ID id.
+       -c     Clear currently displayed preview image (for kitty terminals).
 
-       -c id  Send clear command to server with ID id (usually, it removes im-
-              age from terminal).
-
-       -e id  Kill server with ID id.
+       -e     End preview session and cleanup (for kitty terminals).
 
        -d     Enable debug messages.

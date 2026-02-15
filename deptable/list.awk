@@ -48,7 +48,6 @@ BEGIN {
     LINKS["elinks"]            = "http://elinks.cz/"
     LINKS["lynx"]              = "https://github.com/jpanther/lynx"
     LINKS["w3m"]               = "https://w3m.sourceforge.net/"
-    LINKS["ueberzug"]          = "https://github.com/seebye/ueberzug"
     LINKS["chafa"]             = "https://github.com/hpjansson/chafa"
     LINKS["jq"]                = "https://github.com/jqlang/jq"
     LINKS["glow"]              = "https://github.com/charmbracelet/glow"
