@@ -103,7 +103,7 @@ send_image() {
       --place "${w}x${h}@${x}x${y}" "$1" </dev/null >/dev/tty &
     printf '%d\n' "$!" >"$(kitty_icat_pid)"
     wait
-    return 1
+    return 0
     ;;
   "$image_method_chafa")
     chafa_run "$1"
