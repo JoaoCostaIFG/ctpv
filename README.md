@@ -49,6 +49,7 @@ For example, you only need either `elinks`, `lynx` or
 | audio | [ffmpegthumbnailer][ffmpegthumbnailer] [ffmpeg][ffmpeg] |
 | diff | [colordiff][colordiff] [delta][delta] [diff-so-fancy][diff-so-fancy] |
 | directory | ls |
+| epub | pandoc |
 | font | magick |
 | gpg-encrypted | [gpg][gpg] |
 | html | [elinks][elinks] [lynx][lynx] [w3m][w3m] |

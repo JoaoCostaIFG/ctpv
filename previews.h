@@ -46,6 +46,8 @@ Preview b_previews[] = {
     PR(NULL, "audio", NULL, audio, PREV_ATTR_NONE),
 
     PR(NULL, "application", "pdf", pdf, PREV_ATTR_NONE),
+    PR(NULL, "application", "epub+zip", epub, PREV_ATTR_NONE),
+    PR("epub", NULL, NULL, epub, PREV_ATTR_NONE),
     PR(NULL, "application", "json", jq, PREV_ATTR_NONE),
 
     PR(NULL, "inode", "directory", ls, PREV_ATTR_NONE),
