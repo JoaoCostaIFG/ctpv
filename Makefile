@@ -10,8 +10,14 @@ GEN := gen/help.h gen/previews.h gen/cleanup.h gen/helpers.h
 
 LIBS := magic crypto
 
-ALL_CFLAGS  := -O2 -MMD -Wall -Wextra -Wno-unused-parameter $(CFLAGS) $(CPPFLAGS)
-ALL_LDFLAGS := $(addprefix -l,$(LIBS)) $(CFLAGS) $(LDFLAGS)
+# pkg-config for chafa and ImageMagick
+CHAFA_CFLAGS  := $(shell pkg-config --cflags chafa)
+CHAFA_LDFLAGS := $(shell pkg-config --libs chafa)
+MAGICK_CFLAGS  := $(shell pkg-config --cflags MagickWand)
+MAGICK_LDFLAGS := $(shell pkg-config --libs MagickWand)
+
+ALL_CFLAGS  := -O2 -MMD -Wall -Wextra -Wno-unused-parameter $(CHAFA_CFLAGS) $(MAGICK_CFLAGS) $(CFLAGS) $(CPPFLAGS)
+ALL_LDFLAGS := $(addprefix -l,$(LIBS)) $(CHAFA_LDFLAGS) $(MAGICK_LDFLAGS) $(CFLAGS) $(LDFLAGS)
 
 MKDIR        := mkdir -p
 INSTALL      := install

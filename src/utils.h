@@ -9,8 +9,12 @@
 #define NOTEXIST_EC 127
 
 #define LEN(a) (sizeof(a) / sizeof((a)[0]))
+#ifndef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
+#endif
+#ifndef MIN
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
+#endif
 
 #define STRINGIZE(x) STRINGIZE2(x)
 #define STRINGIZE2(x) #x

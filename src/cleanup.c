@@ -1,4 +1,5 @@
 #include "../gen/cleanup.h"
+#include "image.h"
 #include "shell.h"
 #include "utils.h"
 
@@ -7,9 +8,11 @@ static inline RESULT run_cleanup_script(unsigned char* script, size_t script_len
 }
 
 RESULT cleanup_clear(void) {
+    image_clear();
     return run_cleanup_script(scr_clear_sh, LEN(scr_clear_sh));
 }
 
 RESULT cleanup_end(void) {
+    image_clear();
     return run_cleanup_script(scr_end_sh, LEN(scr_end_sh));
 }

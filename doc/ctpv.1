@@ -79,7 +79,7 @@ File type	Programs
 f3d
 T}
 any	T{
-exiftool cat
+bat cat exiftool
 T}
 archive	T{
 atool ouch
@@ -170,20 +170,18 @@ cmd on-quit &{{
 .
 .SS Image previews
 .
-Image previews are enabled by installing
-.I Chafa
-(as seen in
-.IR "Built-in previews and dependencies" )
-or using built-in image preview functionality of
-.I Kitty
-terminal.
+Image previews are enabled using
+.I libchafa
+which automatically detects terminal capabilities including
+.I Kitty graphics protocol
+and
+.I sixel
+support.
 .
 .PP
 You can control image preview behavior using
-.B forcekitty
-or
 .B forcechafa
-options (see
+option (see
 .IR "Preview options" ).
 .
 .PP
@@ -340,7 +338,6 @@ Example:
 .IP
 .EX
 # Set some options
-set forcekitty
 set shell "/usr/bin/bash"
 .sp
 # Add a new preview
@@ -371,23 +368,10 @@ The setting defaults to
 .BR /bin/sh .
 .
 .TP
-.B forcekitty
-Always use
-.I Kitty
-terminal's built-in method of previewing images.
-.
-.TP
-.B forcekittyanim
-Always use
-.I Kitty
-terminal's built-in method of previewing images for animated
-images.
-.
-.TP
 .B forcechafa
-Always use
+Always use the external
 .I Chafa
-for image previews.
+binary for image previews instead of built-in libchafa support.
 .
 .TP
 .B noimages

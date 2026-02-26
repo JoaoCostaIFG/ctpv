@@ -15,6 +15,7 @@
 #include "config.h"
 #include "ctpv.h"
 #include "error.h"
+#include "image.h"
 #include "preview.h"
 #include "utils.h"
 
@@ -34,6 +35,7 @@ static VectorPreview* previews;
 
 static void cleanup(void) {
     previews_cleanup();
+    image_cleanup();
     if (parser)
         config_cleanup(parser);
     if (magic != NULL)
@@ -394,6 +396,41 @@ static RESULT version(void) {
     return OK;
 }
 
+static RESULT image(int argc, char* argv[]) {
+    char *f, *w, *h, *x, *y;
+    long w_l, h_l, x_l, y_l;
+
+    GET_PARG(f, 0);
+    GET_PARG(w, 1);
+    GET_PARG(h, 2);
+    GET_PARG(x, 3);
+    GET_PARG(y, 4);
+
+    if (!f) {
+        print_error("image file not given");
+        return ERR;
+    }
+
+    if (!w)
+        w = "80";
+    if (!h)
+        h = "40";
+    if (!x)
+        x = "0";
+    if (!y)
+        y = "0";
+
+    ERRCHK_RET_OK(strtol_w(&w_l, w, NULL, 10));
+    ERRCHK_RET_OK(strtol_w(&h_l, h, NULL, 10));
+    ERRCHK_RET_OK(strtol_w(&x_l, x, NULL, 10));
+    ERRCHK_RET_OK(strtol_w(&y_l, y, NULL, 10));
+
+    ERRCHK_RET_OK(image_init());
+    ERRCHK_RET_OK(image_display(f, (int)w_l, (int)h_l, (int)x_l, (int)y_l));
+
+    return OK;
+}
+
 int main(int argc, char* argv[]) {
     program = argc > 0 ? argv[0] : "ctpv";
 
@@ -401,7 +438,7 @@ int main(int argc, char* argv[]) {
     ctpv.debug = 0;
 
     int c;
-    while ((c = getopt(argc, argv, "hcelmdv")) != -1) {
+    while ((c = getopt(argc, argv, "hcelmdvi")) != -1) {
         switch (c) {
             case 'h':
                 ctpv.mode = MODE_HELP;
@@ -423,6 +460,9 @@ int main(int argc, char* argv[]) {
                 break;
             case 'v':
                 ctpv.mode = MODE_VERSION;
+                break;
+            case 'i':
+                ctpv.mode = MODE_IMAGE;
                 break;
             default:
                 return EXIT_FAILURE;
@@ -454,6 +494,9 @@ int main(int argc, char* argv[]) {
             break;
         case MODE_VERSION:
             ret = version();
+            break;
+        case MODE_IMAGE:
+            ret = image(argc, argv);
             break;
         default:
             PRINTINTERR("unknown mode: %d", ctpv.mode);

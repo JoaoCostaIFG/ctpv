@@ -12,9 +12,10 @@ struct CTPV {
         MODE_LIST,
         MODE_MIME,
         MODE_VERSION,
+        MODE_IMAGE,
     } mode;
     struct {
-        int forcekitty, forcekittyanim, forcechafa, noimages, nosymlinkinfo;
+        int forcechafa, noimages, nosymlinkinfo;
         int autochafa, chafasixel, showgpg;
         char* shell;
     } opts;

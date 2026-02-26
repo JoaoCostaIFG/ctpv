@@ -65,9 +65,9 @@ enum Status {
 };
 
 static struct Option options[] = {
-    DEF_OPTION_BOOL(forcekitty), DEF_OPTION_BOOL(forcekittyanim), DEF_OPTION_BOOL(forcechafa),
-    DEF_OPTION_BOOL(noimages),   DEF_OPTION_BOOL(nosymlinkinfo),  DEF_OPTION_BOOL(autochafa),
-    DEF_OPTION_BOOL(chafasixel), DEF_OPTION_BOOL(showgpg),        DEF_OPTION_STR(shell),
+    DEF_OPTION_BOOL(forcechafa), DEF_OPTION_BOOL(noimages),   DEF_OPTION_BOOL(nosymlinkinfo),
+    DEF_OPTION_BOOL(autochafa),  DEF_OPTION_BOOL(chafasixel), DEF_OPTION_BOOL(showgpg),
+    DEF_OPTION_STR(shell),
 };
 
 static void any_type_null(char** s) {

@@ -1,4 +1,4 @@
-image_method_kitty='K'
+image_method_native='N'
 image_method_chafa='C'
 
 echo_err() {
@@ -25,43 +25,16 @@ chafasixel() {
   [ -n "$chafasixel" ]
 }
 
-is_kitty() {
-  case "$TERM" in
-  *-kitty) return 0 ;;
-  *-ghostty) return 0 ;;
-  *) return 1 ;;
-  esac
-}
-
-kitty_clear() {
-  kitty +kitten icat --clear --stdin no --silent --transfer-mode file </dev/null >/dev/tty
-}
-
 set_image_method() {
   image_method=
 
-  [ -n "$forcekitty" ] && is_kitty && {
-    image_method="$image_method_kitty"
-    return 0
-  }
-  [ -n "$forcekittyanim" ] && is_kitty && is_anim_image && {
-    image_method="$image_method_kitty"
-    return 0
-  }
   [ -n "$forcechafa" ] && exists chafa && {
     image_method="$image_method_chafa"
     return 0
   }
 
-  is_kitty && {
-    image_method="$image_method_kitty"
-    return 0
-  }
-
-  exists chafa && {
-    image_method="$image_method_chafa"
-    return 0
-  }
+  # Default: use native ctpv -i (libchafa-based, auto-detects terminal capabilities)
+  image_method="$image_method_native"
 }
 
 is_anim_image() {
@@ -86,10 +59,6 @@ setup_image() {
   set_image_method
 }
 
-kitty_icat_pid() {
-  printf '/tmp/ctpvicat.%d' "$id"
-}
-
 send_image() {
   noimages && return 127
 
@@ -98,11 +67,8 @@ send_image() {
   [ "$mode" = "preload" ] && exit 1
 
   case "$image_method" in
-  "$image_method_kitty")
-    kitty +kitten icat --silent --stdin no --transfer-mode file \
-      --place "${w}x${h}@${x}x${y}" "$1" </dev/null >/dev/tty &
-    printf '%d\n' "$!" >"$(kitty_icat_pid)"
-    wait
+  "$image_method_native")
+    ctpv -i "$1" "$w" "$h" "$x" "$y" </dev/null >/dev/tty
     return 0
     ;;
   "$image_method_chafa")
