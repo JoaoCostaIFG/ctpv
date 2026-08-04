@@ -34,7 +34,7 @@ is_kitty() {
 }
 
 kitty_clear() {
-  kitty +kitten icat --clear --stdin no --silent --transfer-mode file </dev/null >/dev/tty
+  printf '\033_Ga=d\033\\' >/dev/tty
 }
 
 set_image_method() {

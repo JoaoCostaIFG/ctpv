@@ -146,6 +146,14 @@ cmd on-quit &{{
 }}
 ```
 
+> **Note:** The `&` (asynchronous) prefix is strongly preferred over `$`
+> (synchronous). With `$`, lf suspends and resumes its terminal screen around
+> the command, which re-enables kitty's in-band resize reporting (DEC mode
+> 2048) and can cause terminal resize reports (`CSI 48 ; ... t`) to leak into
+> the shell input line after lf exits. With `&`, the screen stays engaged
+> throughout, and lf's input loop consumes any pending terminal reports
+> before cleanly finalizing on quit.
+
 ### Image previews
 
 ctpv supports multiple methods for displaying image previews, depending on your terminal and installed tools:

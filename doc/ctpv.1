@@ -167,6 +167,20 @@ cmd on-quit &{{
 }}
 .EE
 .RE
+.P
+The
+.I & 
+(asynchronous) prefix is strongly preferred over
+.I $ 
+(synchronous). With
+.IR $ ,
+lf suspends and resumes its terminal screen around the command, which
+re-enables kitty's in-band resize reporting (DEC mode 2048) and can cause
+terminal resize reports to leak into the shell input line after lf exits.
+With
+.IR & ,
+the screen stays engaged throughout, and lf's input loop consumes any
+pending terminal reports before cleanly finalizing on quit.
 .
 .SS Image previews
 .
